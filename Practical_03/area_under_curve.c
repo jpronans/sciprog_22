@@ -5,6 +5,7 @@
 float y(float x)
 {
 	// f(x) = 1/(1+x*x)
+	//return tan(x);
 	return 1/(1+x*x);
 }
 
@@ -37,6 +38,7 @@ void main(void) {
   int int1, int2, i;
   float float1, float2, spacing;
   double sum;
+  double area;
   
   // Test Values
   int1 = 33554430;
@@ -50,27 +52,53 @@ void main(void) {
   // Add formatting to float
   printf("Two ints %d, %d and two floats %.4f, %.4f\n", int1, int2, float1, float2);
 
-  // Testing trapezodial
+  // Testing trapezodial code
   float x0=0;
-  float xn=20;
-  int n = 19;
+  float xn=1;
+  int n = 6;
   printf("-----\nExercise 3a\n");
   printf("Result of integral = %6.6f\n-----\n",trapezodial(x0,xn,n));
   
   sum = 0.0;
   i = 0;
 
-/*    
-// spacing / number of rectangles
-   spacing = (xn-x0)/n;
-   printf("Spacing is (%f - %f) / %d\n", xn, x0, n);
-   printf("Spacing %f\n",spacing);
-   for( i=1; i<=n; i++)
-   {
-	printf("sum %lf\n",sum);
-	sum = sum + (f(x0 + (i-1)*spacing)*spacing);
-   }
-   printf("Sum = %6.6lf\n",sum);
-//   return 0;
-*/
+  // Convert Degress to Radians multiply the value by pi/180
+  // Convert Radians to Degrees multiply by 180/pi
+  double a = 0;
+  double b = (M_PI/3) * (180/M_PI);
+  n = 12;
+  
+  printf("Exercise 3\n");
+  printf("a = %.4lf, b = %0.4lf, c = %d\n",a,b,n);
+
+  // From class notes in announcement board
+  // Start at 5 , stopping at 60 gives 11 hops or steps
+  
+  // Calculate Endpoints and convert to degrees
+  double endpoints = tan(0) + tan(M_PI/3);
+  printf("Endpoints in radians %.4f\n",endpoints);
+  
+  // Calculate b-a/2N, all values in degrees 
+  double ba2n = (b - a) / (2.0*n);    
+  
+  printf("ba2n in degrees %.4lf\n",ba2n);   
+
+  
+
+  i=5;
+  while(i<60)
+  {
+    // Convert to Radians before feeding to tan() function
+    area = area + tan((M_PI*i)/180);
+    //area = area + 2 * tan((M_PI*i)/180.0);
+    i = i + 5;
+  }
+  // add the endpoints
+  //
+  area = area + endpoints;
+  
+  // Multiply by b-a/2n
+  area = area * ba2n;
+  printf("area is %.4lf\nlog(2) is %.4f\n-----\n",area,log(2));
+  
 }

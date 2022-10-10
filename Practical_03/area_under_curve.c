@@ -65,18 +65,18 @@ void main(void) {
   // Convert Degress to Radians multiply the value by pi/180
   // Convert Radians to Degrees multiply by 180/pi
   double a = 0;
-  double b = (M_PI/3) * (180/M_PI);
+  double b = (M_PI/3);
   n = 12;
   
   printf("Exercise 3\n");
-  printf("a = %.4lf, b = %0.4lf, c = %d\n",a,b,n);
+  printf("a = %.6lf, b = %0.6lf, c = %d\n",a,b,n);
 
   // From class notes in announcement board
   // Start at 5 , stopping at 60 gives 11 hops or steps
   
   // Calculate Endpoints and convert to degrees
   double endpoints = tan(0) + tan(M_PI/3);
-  printf("Endpoints in radians %.4f\n",endpoints);
+  printf("Endpoints in radians %.6lf\n",endpoints);
   
   // Calculate b-a/2N, all values in degrees 
   double ba2n = (b - a) / (2.0*n);    
@@ -89,8 +89,8 @@ void main(void) {
   while(i<60)
   {
     // Convert to Radians before feeding to tan() function
-    area = area + tan((M_PI*i)/180);
-    //area = area + 2 * tan((M_PI*i)/180.0);
+    //area = area + tan((M_PI*i)/180);
+    area = area + 2 * tan((M_PI*i)/180.0);
     i = i + 5;
   }
   // add the endpoints
@@ -99,6 +99,6 @@ void main(void) {
   
   // Multiply by b-a/2n
   area = area * ba2n;
-  printf("area is %.4lf\nlog(2) is %.4f\n-----\n",area,log(2));
+  printf("area is %.6lf\nlog(2) is %.6lf\n-----\n",area,log(2));
   
 }

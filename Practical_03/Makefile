@@ -2,7 +2,7 @@
 
 compile:
 	@echo "Building"
-	gcc -lm -o area_under_curve area_under_curve.c
+	gcc -Wall -lm -o area_under_curve area_under_curve.c
 
 clean:
 	@echo "Tidying up"

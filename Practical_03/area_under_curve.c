@@ -6,7 +6,7 @@ int main(void) {
   // Declare variables
   int int1, int2, i,n;
   float float1, float2;
-  double a,b,area;
+  double a,b,area, endpoints, ba2n;
   
   // Test Values
   int1 = 33554430;
@@ -34,11 +34,11 @@ int main(void) {
   // Start at 5 , stopping at 60 gives 11 hops or steps
   
   // Calculate Endpoints 
-  double endpoints = tan(0) + tan(M_PI/3);
+  endpoints = tan(0) + tan(M_PI/3);
   printf("Endpoints in radians %.6lf\n",endpoints);
   
-  // Calculate b-a/2N, all values in degrees 
-  double ba2n = (b - a) / (2.0*n);    
+  // Calculate b-a/2N 
+  ba2n = (b - a) / (2.0*n);    
   
   printf("ba2n in radians %.4lf\n",ba2n);   
 
@@ -50,7 +50,6 @@ int main(void) {
     i = i + 5;
   }
   // add the endpoints
-  //
   area = area + endpoints;
   
   // Multiply by b-a/2n

@@ -45,7 +45,7 @@ int main(void) {
   i=5;
   while(i<60)
   {
-    // Get area under part of curve 
+    // Get area under part of curve, convert to radians in passing to tan function 
     area = area + 2 * tan((M_PI*i)/180.0);
     i = i + 5;
   }

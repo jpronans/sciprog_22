@@ -4,17 +4,20 @@ LDFLAGS = -lm
 
 all: mmc 
 
+# $@ -> Filename representing the target
+# $^ filenames of all the prerequesites spearated by spaces
+# Linking
 mmc: main.o mm.o
 	$(CC) -o $@ $^ $(LDFLAGS)
-##$(CC) -o mmc main.o mm.o $(LDFLAGS)	 
 
+# $< file name of the first prerequesite (mm.c in this case)
 mm.o: mm.c
 	$(CC) -c $(CCFLAGS) $<
-##$(CC) -c $(CCFLAGS) mm.c
 
 main.o: main.c
 	$(CC) -c $(CCFLAGS) $<
-##$(CC) -c $(CCFLAGS) main.c
 
+# Tidy up
 clean:
-	rm *.o  
+	rm *.o
+	rm mmc 

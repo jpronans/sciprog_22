@@ -12,10 +12,10 @@ mmc: main.o mm.o
 
 # $< file name of the first prerequesite (mm.c in this case)
 mm.o: mm.c
-	$(CC) -c $(CCFLAGS) $<
+	$(CC) -Wall -c $(CCFLAGS) $<
 
 main.o: main.c
-	$(CC) -c $(CCFLAGS) $<
+	$(CC) -Wall -c $(CCFLAGS) $<
 
 # Tidy up
 clean:

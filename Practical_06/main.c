@@ -1,27 +1,11 @@
 #include <stdio.h>
+#include "mm.h"
 
-// Define N,P and Q
-#define N 5
-#define P 3
-#define Q 4
+// N,P and Q defined in mm.h
 
-
-// A Matrix Definition
-struct a_matrix {
-  int values[N][P];
-};
-
-// B Matrix definition
-struct b_matrix {
- int values[P][Q];
-};
-// C Matrix definition
-struct c_matrix {
- int values[N][Q];
-};
 
 // Function Prototype
-void matmult(void);
+struct c_matrix  matmult(const struct a_matrix, const struct b_matrix, struct c_matrix);
 
 
 // Main
@@ -35,6 +19,7 @@ int i,j;
 struct a_matrix am;
 struct b_matrix bm;
 struct c_matrix cm;
+struct c_matrix ret_cm;
 
 // Initialise A. A_ij = i+j
   for (i=0; i<N; i++){
@@ -57,36 +42,15 @@ struct c_matrix cm;
       cm.values[i][j] = 0;
     }
   }
-
-
-
-// Print A
-  printf("A Matrix -\n");
-  for (i=0; i<N; i++){
-    for (j=0; j<P; j++){
-      printf("%3d", am.values[i][j]);
-    }
-    printf("\n");
-  }
-  printf("----------\n\n");
-
-// Print B
-  printf("B Matrix ----\n");
-  for (i=0; i<P; i++){
-    for (j=0; j<Q; j++){
-      printf("%3d", bm.values[i][j]);
-    }
-    printf("\n");
-  }
-  printf("-------------\n");
+  // Perform Multiplication
+  ret_cm = matmult(am, bm, cm);
 
   printf("C Matrix ----\n");
   for (i=0; i<N; i++){
     for (j=0; j<Q; j++){
-      printf("%3d", cm.values[i][j]);
+      printf("%3d", ret_cm.values[i][j]);
     }
     printf("\n");
   }
   printf("-------------\n");
-
 }

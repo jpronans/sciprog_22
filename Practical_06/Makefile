@@ -1,6 +1,6 @@
 CC = /usr/bin/gcc
 CCFLAGS = -O3
-LDFLAGS = -lm
+LDFLAGS =
 
 all: mmc 
 

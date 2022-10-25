@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "mm.h"
+// N,P and Q defined in mm.h
 
 // Passing by value
 struct c_matrix matmult(const struct a_matrix am, const struct b_matrix bm, struct c_matrix cm)

@@ -34,10 +34,8 @@ int main(void)
 
 // Slightly more headwrecking, but keep going until we hit zero, then unroll 
 int gcd (int a, int b) {
-  if (b != 0 ){
+  if (b != 0 )
     return gcd(b, a % b);
-  }
-  else {
+  else
     return a;
-  }
 }

@@ -2,7 +2,7 @@ CC = /usr/bin/gcc
 CCFLAGS = -O3
 LDFLAGS =
 
-all: gcda #gcdb 
+all: gcda gcdb 
 
 # $@ -> Filename representing the target
 # $^ filenames of all the prerequesites spearated by spaces

@@ -1,5 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "magic_square.h"
+
+// Function in header declared
+int isMagicSquare(int ** square, const int n);
 
 // Dynamically allocate the memory for an array of 'n' integers
 int *allocatearray(const int order){
@@ -25,68 +29,23 @@ int main(void)
 {
 
   // Counter variables
-  int i,j,k,p,q,mid,order;
+  int i,j,k,p,q,mid,order,res;
   int* magic;
  
-
-  printf("Enter the order of the magic square to be generated (must be odd)");
-  if ((scanf("%d", &order)) != 1){
-    printf("Error in scanf\n");
-    exit(1);
-  }
-   
-  if( order%2 == 0){
-    printf("The order must be odd.\n");
-    exit(1);
-  }
-  magic = allocatearray(order);
-
-  // Based on https://www.codesansar.com/c-programming-examples/generate-magic-square.htm 
-  mid = order/2;
+  printf("Initial Test of 3x3\n");
   
-  for(i=0;i< order; i++){
-    for(j=0; j< order; j++){
-      magic[order*i+j]=0;
-    }
-  }
-                                                          
-  k=mid;
-  j=0;
-  for(i=1; i<= order*order; i++){
-    magic[order*j + k] = i;
-    p = j--;
-    q = k++;
-                                                                                                      
-    if(j< 0){
-      j = order-1;
-    }
-    
-    if(k>order-1){
-      k=0;
-    }
-    
-    if(magic[j+k] != 0){
-      k = q;
-      j = p+1;
-    }
-  }
+  int three1[3]= {2,7,6};
+  int three2[4]= {9,5,1};
+  int three3[3]= {4,3,8};
+
+  int *newthree[3] = {three1,three2,three3};
+
   
-  printf("Generated MAGIC SQUARE is:\n");
-  for(i=1;i<=6*order;i++){
-    printf("-");
-  }
-  printf("\n");
-  for(j=0;j< order;j++){
-    printf("|");
-    for(k=0; k< order; k++){
-      printf("%4d |", magic[j+k]);
-    }
-    printf("\n");
-    for(i=1; i<=6*order; i++){
-      printf("-");
-    }
-    printf("\n");
-  }
+  
+  res = isMagicSquare(newthree, 3);
+  if (res == 0)
+    printf("Not Magic");
+ 
   return 0;
 
 }

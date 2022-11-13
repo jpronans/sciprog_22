@@ -4,6 +4,9 @@
 // The function takes as input a matrix 'square' and its side length 'n'
 // and outputs 0 if 'n' is negative or 'square' is NOT a magic square;
 // otherwise, outputs a non-zero value
+#include <time.h>
+#undef MYTIMER
+
 int isMagicSquare(int ** square, const int n) {
 
     // Eliminate the case where 'n' is negative
@@ -11,6 +14,14 @@ int isMagicSquare(int ** square, const int n) {
         return 0;
     }
 
+#ifdef MYTIMER
+    time_t tst, tend;
+    clock_t cst, cend;
+    tst= time(0);
+    cst= clock();
+    int count=0;
+    for(count=0; count<1000000000; count++){
+#endif
     // M is the sum of every row, column,
     // and the main and secondary diagonals
     int M = (n * (n*n + 1))/2;
@@ -40,7 +51,14 @@ int isMagicSquare(int ** square, const int n) {
     if(diagSum != M || secDiagSum != M) {
         return 0;
     }
+#ifdef MYTIMER
+    }
 
+    tend = time(0);
+    cend = clock();
+    printf("elapsed: %lf\n", difftime(tend, tst));
+    printf("elapsed: %ld\n", cend-cst);
+#endif
     // If passed all checks, it is a magic square
     return 1;
 }

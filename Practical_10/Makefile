@@ -1,13 +1,13 @@
 CC = /usr/bin/gcc
 CCFLAGS = -O3
-LDFLAGS =
+LDFLAGS = -lm
 
 all: hanoi 
 
 # $@ -> Filename representing the target
 # $^ filenames of all the prerequesites spearated by spaces
 # Linking
-ms: main.o
+hanoi: main.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 # $< file name of the first prerequesite (mm.c in this case)

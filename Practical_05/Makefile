@@ -2,10 +2,10 @@
 
 compile:
 	@echo "Building"
-	gcc -Wall -lm -o practical05 practical05.c
-	gcc -Wall -lm -o practical05b practical05b.c
+	gcc -Wall -lm -o fibonacci practical05.c
+	gcc -Wall -lm -o maclaurin practical05b.c
 
 clean:
 	@echo "Tidying up"
-	rm practical05 practical05b
+	rm fibonacci maclaurin
 

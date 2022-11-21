@@ -14,10 +14,10 @@ int main(void) {
  
 
   double delta, x;
-  printf("Enter the precision for the Maclaurin series (greater than 1)\n");
+  printf("Enter the precision for the Maclaurin series (less than 1)\n");
   scanf("%lf", &delta);
 
-  if (delta <= 1) {
+  if (delta >= 1) {
     printf("Please try again\n");
     return 1;
   }
@@ -29,12 +29,12 @@ int main(void) {
   int j =0; // array index
   
   x = -0.9;
-  while (x < 0.91 && j < LENGTH){
+  while (x <= 0.91 && j < LENGTH){
     tan1[j]=arctanh1(x,delta);
     tan2[j]=arctanh2(x);
     printf("the difference at x:%lf is %.10lf\n",x, fabs(tan1[j]-tan2[j]));
     j++;
-    x=x+0.01; // try with 0.01 later
+    x=x+0.01; 
   } 
  
   // Exit cleanly 
@@ -51,8 +51,8 @@ double arctanh1(const double x, const double delta){
     elem=pow(x,val)/val;
     arctan = arctan + elem;
     n++;
-    // Needs checking
-  } while (fabs(elem) >= log10(delta)); 
+    // Stop when element is less than our delta
+  } while (fabs(elem) >= delta); 
 
   return arctan;
 }

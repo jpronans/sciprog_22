@@ -39,10 +39,12 @@ void test_code(void){
     for(c = 0; c < TESTORDER; c++){
       // print to file
       fprintf(fp, " %d", newthree[r][c]);
-      // print to console
-      //printf(" %d", newthree[r][c]);
+
+      // print to console for debugging
+      // printf(" %d", newthree[r][c]);
     }
-    // print newline
+
+    // print newline to file
     fprintf(fp, "\n");
   }
   // close file
@@ -51,7 +53,52 @@ void test_code(void){
   printf("\n");
 
 }
-
+/* Code from tutorial.
+ * char filename[MAX_FILE_NAME]
+ * printf("Enter file name")
+ * scanf("%s", filename)
+ *
+ * int n = get_sum_lines(filename)
+ *
+ * f = fopen(filename, "r");
+ * 
+ * int loop;
+ * int *magicsqhare=malloc(n * sizeof (int*))
+ * 
+ * for (i=0; i < n; i++) {
+ * {
+ *  magicsquare[i]=malloc(n*sizeof(int));
+ * }
+ *
+ * int j;
+ * for(i=0; i < n; i++)
+ * {
+ *   for (j=0;j<n; j++)
+ *   {
+ *    fscanf(f,"%d", &magicsquare[i][j]);
+ *   }
+ * }
+ * int flag=ismagicsquare(magicsquare, n);
+ *
+ * if (flag==1)
+ * {
+ *  printf("This suqare is magic");
+ * }
+ * else
+ * {
+ *  printf("This square is not magic");
+ * }
+ * 
+ * for (i=0; i < n; i++) {
+ * {
+ *  free(magicsquare[i]);
+ * }
+ * free (magicsquare);
+ * 
+ * fclose(fp);
+ *
+ * return 0;
+ */
 // Main O(n) - Linear behaviour
 int main(void)
 {
@@ -87,6 +134,7 @@ int main(void)
   matrix=(int **)malloc(order*sizeof(int*));
   // Start reading row by row 
   for(r=0; r<order; r++){
+
     //Allocate memory to store the line 
     line=(int *)malloc(order*sizeof(int));
     

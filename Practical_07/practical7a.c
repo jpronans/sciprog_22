@@ -1,8 +1,26 @@
+/*
+ * Find e, this is apparently the taylor series
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 
 #undef DEBUG
+
+
+// Example of recursive function from Tuesday Class
+int cs_factorial(int n){
+  printf("n is %d\n",n);
+  if (n == 0){
+    return 1;
+  }
+  else if(n > 1){
+    return (n * cs_factorial(n-1));
+  }
+  else
+    return (-1);
+}
 
 // Dynamically allocate the memory for an array of 'n' doubles
 double *allocatearray(const int n){
@@ -25,34 +43,27 @@ double *allocatearray(const int n){
 
 
 // fill the array of doubles with the result for each piece of the formula
-void pre_calcs(double* mydoubles, int polynomials)
+void pre_calcs(double* mydoubles, const int polynomials)
 {
 
   double x=1.0;
+  // I didn't notice that 'fact' went negative as I went with Double instead of an Int.
+  // Changing to int gives
+  // f i = 13, result is 2.71828182782051 with a difference of -0.00000000063854
+  // f i = 14, result is 2.71828182735485 with a difference of -0.00000000110420
   double fact=0.0;
  
   // factorial counter
   double j=0.0;
  
   int i=0;
- 
-  // Outer loop, work through each polynomial
-  for(i=0; i<polynomials; i++){
 
-    // First two cases are special 
-    if (i == 0){
-      mydoubles[0] = 1;
-      continue;
-    }
-    if (i == 1){
-      mydoubles[1] = x;
-      continue;
-    }
+  for(i=0; i<polynomials; i++){
 
     // Set/Reset to 1 before starting the loop
     fact = 1.0;
 
-    // Calculator factorial for i
+    // Calculate factorial for i
     for (j=1; j<=i; j++){
       fact = fact * j;
 
@@ -62,6 +73,7 @@ void pre_calcs(double* mydoubles, int polynomials)
       // Store the current polynomial value
       mydoubles[i] = pow(x,j) / fact;
     }
+    //printf("Recursive factorial for %d is %d\n", polynomials, cs_factorial(polynomials));
 
 #ifdef DEBUG
     printf("\n");
@@ -81,7 +93,7 @@ int main(void)
   // Declare variable to hold the result
   double result = 0;
   
-  // User filled variably to control number of iterations
+  // User filled variable to control number of iterations
   int polynomials; 
 
   // Interator variable
@@ -96,13 +108,18 @@ int main(void)
   // Fill the array with calculated values
   pre_calcs(mydoubles, polynomials);
   
+  // Hadn't thought of doing it this way until Buket pointed it out in the practical. Add the 1 at the end.
+  result = 1.0; 
+
   // Work through the estimates, totalling as we go
   for(i=0;i<polynomials;i++){
     result = result + mydoubles[i];
-    printf("f i = %d, result is %.10lf\n",i, result);
+    printf("f i = %d, result is %.14lf with a difference of %.14lf\n",i, result, result-exp(1.0));
   }
-
+  // Free allocated RAM
   free(mydoubles);
+
+  // defensively set to NULL
   mydoubles = NULL;
   // Exit cleanly
   printf("Done!\n");

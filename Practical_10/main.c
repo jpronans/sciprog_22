@@ -42,30 +42,32 @@ int isEmpty(struct Stack* stack)
 // Function to add an item to stack. It increases top by 1
 void push(struct Stack *stack, int item)
 { 
-	if (isFull(stack))
+  // Don't do anything if its full 
+	if (isFull(stack)  )
   {
-    printf("Overflow adding %d to stack. Not added",item);  
 		return;
   }
   // Store the item into the top of the stack(pre-increment)
   stack->array[++stack->top] = item;
 }
 
-// Function to remove an item from stack. It
-// decreases top by 1
+// Function to remove an item from stack. It decreases top by 1
 int pop(struct Stack* stack)
 {
   // Underflow
 	if (isEmpty(stack))
 		return -9;
   // Return 
-  return stack -> array[stack -> top--];
+  return stack->array[stack->top--];
 }
 
 //Function to show the movement of disks
 void showMove(char from, char to, int disk)
-{
-    printf("Move disk %d from:%c to :%c\n\n", disk, from, to);
+{ 
+    // not a disk
+    if (disk == -9)
+      return;
+    printf("Move disk %d from %c to %c\n", disk, from, to);
 }
 
 // Function to implement legal movement between two poles
@@ -120,66 +122,105 @@ void create_and_test_stack(int no_of_disks){
   for(i=0; i< no_of_disks;i++){
     push(temp, i);
   }
+  
   // print and pop
   for(i=0; i< no_of_disks;i++){
     tmp=pop(temp);
     printf("Stored Value is %d\n",tmp);
   }
-  printf("Test complete\n");
-
+  printf("Stack Test complete\n\n");
+  
   free(temp); 
 }
 
 void iterate(int no_of_disks, struct Stack *src, struct Stack *dest, struct Stack* spare){
+  
+  // Iterator and holds calculated value
+  int i, total_no_of_moves;
 
-  int i, tmp, total_num_of_moves;
-  char s = 'S', d = 'D', p = 'P'; // Source, Dest, sPare
+  char s = 'A', d = 'C', p = 'B'; //  Source, Dest, Spare
 
-  // If number of disks is even, then interchange destination pole and auxiliary pole
+  struct Stack *tmpPtr;
+
+  /* Used for printing out the stack
+  // Assignment prevents compiler warnings
+  int tmp=0;  
+  int tmp1=0; 
+  int tmp2=0; 
+  */
+
+  // If number of disks is even, then interchange destination pole and spare/extra/middle pole
+  // i.e. move the smallest disk to the spare.
   if (no_of_disks % 2 == 0)
   {
+    tmpPtr = dest;
+    dest = spare;
+    spare = tmpPtr;
     char temp = d;
     d = p;
     p = temp;
   }
   // Known value
-  total_num_of_moves = (no_of_disks*no_of_disks) - 1;
+  total_no_of_moves = (no_of_disks*no_of_disks) - 1;
 
 
-  //Larger disks will be pushed first
+  // Seed the source stack
   for (i = no_of_disks; i >= 1; i--){
-    printf("Seeding stack posn %d with %d\n",i, i);
+    //printf("Seeding stack posn %d with %d\n",i, i);
     push(src, i);
   }
 
-
   // Looking at the video, it all comes down to the same few moves, again and again.
-  for (i = 1; i <= total_num_of_moves; i++)
+  for (i = 1; i <= total_no_of_moves; i++)
   {
-    if (i % 3 == 1){
-      printf("Swap src->item:%d, with dest->item:%d\n", src->top, dest->top);
+    if (i % 3 == 0){ // Move spare to dest
+      swapDisks(spare, dest, p, d);
+    }
+    else if (i % 3 == 1){// move src to dest
       swapDisks(src, dest, s, d);
     }
-    else if (i % 3 == 2){ // swap src and spare
-      printf("Swap src->item:%d, with spare->item:%d\n", src->top, spare->top);
+    else if (i % 3 == 2){ // move src to  spare
       swapDisks(src, spare, s, p);
     }
 
-    else if (i % 3 == 0){
-      printf("Swap spare->item:%d, with dest->top %d\n",spare->top, dest->top);
-      swapDisks(spare, dest, p, d);
-    }
   }
+  /*
+   *
   // pop and print
-  int tmp1, tmp2;
+  printf("Check the stacks\n");
+  printf("Index:\tsrc\tspare\tdest\n");
   for (i = no_of_disks; i >= 1; i--){
      tmp=pop(src);
      tmp1=pop(spare);
      tmp2=pop(dest);
 
-     printf("Reading Stack posn %d, result %d:\t%d:\t%d\n",i,tmp, tmp1, tmp2);
+     printf("%d\t%d\t%d\t%d\n",i,tmp, tmp1, tmp2);
   }
+  if( tmp2 != no_of_disks )
+    printf("Dest stack not correct, try again!\n");
   //
+  */
+
+}
+
+/*
+ * from https://www.youtube.com/watch?v=rf6uf3jNjbo
+ * let f(n) be recursive function
+ * assume f(n-1) works
+ * show f(n) works using f(n-1)
+ * Not sure the domino example helped at all ;(
+ */
+int recursive_h(int n, char src, char mid, char dest){
+  if (n == 1 ) {
+      printf("Moving disk 1 from %c to %c\n", src, dest);
+  }
+  else {
+    recursive_h(n-1, src, dest, mid);
+    printf("Moving disk %d from %c to %c\n", n, src, dest);    
+    recursive_h(n-1, mid, src, dest);
+  }
+  // Default
+  return 0;     
 }
 
 // Attempt at iterative Tower of Hanoi solution 
@@ -191,12 +232,15 @@ int main(void)
 
   printf("Please enter the number of disks\n");
   scanf("%d", &no_of_disks);
+  printf("\n");
 
   // Small bit of defensive programming, fail early
   if (no_of_disks < 1){
     printf("Non zero please, try again\n");
     return 0;
   }
+  
+  // Code for testing Stack Push and Pop
   create_and_test_stack(no_of_disks);
 
   // Create three 'no_of_disks' sized stacks
@@ -204,11 +248,13 @@ int main(void)
   dest = createStack(no_of_disks);
   spare = createStack(no_of_disks);
 
-
   // Iterate over the three poles.
+  printf("Running Iterative solution\n");
   iterate(no_of_disks, src, dest, spare);
 
-  printf("All done\n");
+  printf("\nRunning Recursive solution\n");
+  recursive_h(no_of_disks, 'A','B','C');
+  printf("\nAll done\n");
 
   // Free up what we allocated with createStack
   free(src);
